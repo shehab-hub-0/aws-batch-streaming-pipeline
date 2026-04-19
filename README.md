@@ -77,7 +77,12 @@ Kinesis Data Firehose
 │   ├── de-c1w4-diagram-batch.drawio.png
 │   ├── de-c1w4-diagram-stream.drawio.png
 │   ├── schema_after_ETL.png
-│   └── terraform_plan.png
+│   ├── terraform_plan.png
+│   └── screenshots/
+│       ├── s3-buckets.png
+│       ├── lambda-functions.png
+│       ├── lambda-inference.png
+│       └── lambda-dashboard.png
 ├── scripts/
 │   └── setup.sh                       # Environment setup
 ├── sql/
@@ -278,15 +283,31 @@ de-c1w4-<ACCOUNT>-us-east-1-ml-artifacts/
 ## 📊 Key AWS Services Used
 
 ```
-Amazon RDS MySQL     →  Source transactional database
-AWS Glue             →  Serverless ETL (PySpark under the hood)
-Amazon S3            →  Data lake, ML artifacts, recommendations output
+Amazon RDS MySQL      →  Source transactional database
+AWS Glue              →  Serverless ETL (PySpark under the hood)
+Amazon S3             →  Data lake, ML artifacts, recommendations output
 Amazon RDS PostgreSQL →  Vector database with pgvector extension
-AWS Lambda           →  Serverless model inference & stream transformation
-Amazon Kinesis       →  Real-time data streaming
-CloudWatch           →  Logging & monitoring
-Terraform            →  Infrastructure provisioning (IaC)
+AWS Lambda            →  Serverless model inference & stream transformation
+Amazon Kinesis        →  Real-time data streaming
+CloudWatch            →  Logging & monitoring
+Terraform             →  Infrastructure provisioning (IaC)
 ```
+
+---
+
+## 📸 Screenshots
+
+### S3 Buckets — Data Lake · ML Artifacts · Recommendations
+![S3 Buckets](images/screenshots/s3-buckets.png)
+
+### Lambda Functions — All Deployed Functions
+![Lambda Functions](images/screenshots/lambda-functions.png)
+
+### Model Inference Lambda — Function Overview
+![Model Inference Lambda](images/screenshots/lambda-inference.png)
+
+### Lambda Dashboard — Live Metrics & Invocations
+![Lambda Dashboard](images/screenshots/lambda-dashboard.png)
 
 ---
 
