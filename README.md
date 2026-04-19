@@ -20,34 +20,18 @@ This project implements a **full end-to-end data engineering pipeline** that cov
 ## 🏗️ Architecture
 
 ### Batch Pipeline
-```
-Amazon RDS (MySQL)
-        │
-        ▼
-  AWS Glue ETL Job
-        │
-        ▼
-  Amazon S3 (Data Lake)
-  └── ratings-ml-training/
-      └── customerNumber=<N>/   ← partitioned data
-```
+
+![Batch Process Architecture](images/de-c1w4-diagram-batch.drawio.png)
+
+The batch pipeline ingests product and user data from **Amazon RDS (MySQL)**, transforms it using **AWS Glue ETL**, and stores the training-ready data in an **Amazon S3 Data Lake** — partitioned by `customerNumber` for efficient ML consumption.
+
+---
 
 ### Streaming Pipeline
-```
-Kinesis Data Streams (live user activity)
-        │
-        ▼
-Kinesis Data Firehose
-        │
-        ├──► Lambda (stream-transformation)
-        │         │
-        │         ├── S3 (ML model artifacts)
-        │         └── PostgreSQL + pgvector (embeddings)
-        │
-        ▼
-  Amazon S3 (Recommendations Bucket)
-  └── year/month/day/hour/
-```
+
+![Streaming Process Architecture](images/de-c1w4-diagram-stream.drawio.png)
+
+Live user activity is streamed through **Kinesis Data Streams → Kinesis Firehose → Lambda (stream transformation)**, which invokes the trained model and queries the **Vector DB** to return real-time product recommendations, then stores them in an **S3 Recommendations Bucket**.
 
 ---
 
@@ -244,7 +228,10 @@ year/month/day/hour/de-c1w4-delivery-stream-<PLACEHOLDER>
 Added to the `classicmodels` database — contains user-to-product ratings (scale 1–5).
 
 ### After ETL Transformation
-The Glue job produces training-ready data partitioned by `customerNumber`:
+
+The Glue job produces the following ML-ready schema, partitioned by `customerNumber`:
+
+![Schema after ETL](images/schema_after_ETL.png)
 
 ```
 S3://de-c1w4-<ACCOUNT>-datalake/ratings-ml-training/
